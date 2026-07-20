@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: fboplus_postgres_local
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: fboplus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_dev_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - fboplus_pgdata:/var/lib/postgresql/data
+
+volumes:
+  fboplus_pgdata:
