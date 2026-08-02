@@ -4,6 +4,8 @@ import com.fboplus.backend.config.Env
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
 import javax.sql.DataSource
 
 object DatabaseFactory {
@@ -11,6 +13,10 @@ object DatabaseFactory {
     fun init() {
         val dataSource = createHikariDataSource()
         Database.connect(dataSource)
+
+        transaction {
+            SchemaUtils.createMissingTablesAndColumns(Users)
+        }
     }
 
     private fun createHikariDataSource(): DataSource {
